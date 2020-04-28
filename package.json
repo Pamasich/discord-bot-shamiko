@@ -1,0 +1,8 @@
+{
+  "name": "shamiko-bot",
+  "version": "1.0.0",
+  "description": "A personal bot for Discord for entertainment purposes.",
+  "main": "index.js",
+  "author": "Pamasich",
+  "license": "ISC"
+}
