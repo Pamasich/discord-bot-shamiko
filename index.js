@@ -6,7 +6,7 @@ client.on('ready', () => {
 })
 
 client.on('message', msg => {
-    if (message.author.bot) return;
+    if (msg.author.bot) return;
     if (msg.content === 'ping') {
         msg.reply('Pong!');
     }
