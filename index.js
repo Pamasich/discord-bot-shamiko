@@ -4,6 +4,13 @@ const Discord = require('discord.js');
 // Objects
 const bot = new Discord.Client();
 
+/*
+    TODO: Say command
+    TODO: Organic mode
+    TODO: Ganbare command
+    TODO: Typescript
+*/
+
 //------------------------
 // Bot Event Handlers
 
