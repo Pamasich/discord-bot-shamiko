@@ -4,3 +4,4 @@ TODO: Hug command
 TODO: Remove hardcoded numbers
 TODO: Make tell command recognize non-mentions as users, turn into mention,
 use null to not mention that user
+TODO: Delete message requesting tell
