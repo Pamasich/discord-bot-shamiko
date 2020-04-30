@@ -106,6 +106,11 @@ const tell = function (cmds, msg) {
                 + removeWordsFromStart(msg.content, 3));
             return;
         }
+        // If a user specifies 'me', the bot should mention the requesting user.
+        if (nextArg === 'me') {
+            msg.reply(removeWordsFromStart(msg.content, 3));
+            return;
+        }
         // By default, just send the message as given.
         msg.channel.send(removeWordsFromStart(msg.content, 2));
     }
