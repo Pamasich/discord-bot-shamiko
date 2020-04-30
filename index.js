@@ -33,6 +33,7 @@ bot.on('message', msg => {
             Further sub-commands can be used to fine-tune functionality. */
         switch (msgParts.next()) {
             // Returns information regarding a specified topic.
+            case 'tell':
             case 'info':
                 switch (msgParts.next()) {
                     // Joke cases
