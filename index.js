@@ -201,9 +201,10 @@ const help = function(msg) {
             + " you if I know about it!"
         + "\n ● ganbare <topic>: Tells me to give it my best. You may"
             + " optionally include what I should do my best at."
-        + "\n ● tell <user> [message]: Makes me say something. Optionally a"
-            + " I can tell the message to a specific user, just tell me their"
-            + " name!"
+        + "\n ● tell <target> [message]: Makes me say something. Optionally"
+            + " I can tell the message to a target user, just tell me their"
+            + " name! If you want to start a message with a name but don't"
+            + " want me to mention them, use a ' - ' before the name."
         + "\n\nIf you want me to do something, just say my name!");
 }
 
