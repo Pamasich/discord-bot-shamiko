@@ -77,6 +77,16 @@ const getToken = function() {
     return token = fs.readFileSync('./token.txt', 'utf-8').trim();
 }
 
+/**
+    Removes a specified amount of words from a given string.
+    @param {string} str The string to remove the words from
+    @param {number} amount How many words to remove
+    @returns {string} The input string with the first words removed
+*/
+const removeWordsFromStart = function(str, amount) {
+    return str.split(' ').splice(amount).join(' ');
+}
+
 //-------------
 // Commands
 
@@ -89,13 +99,12 @@ const getToken = function() {
 const tell = function (cmds, msg) {
     const nextArg = cmds.next();
     // Check for mentions right after the command, and add a comma if it exists.
-    if (nextArg !== undefined && nextArg.startsWith('<@') && cmds.length >= 4) {
-        msg.channel.send(nextArg
-            + ', ' + msg.content.split(' ').splice(3,).join(' '));
+    if (nextArg && nextArg.startsWith('<@') && cmds.length >= 4) {
+        msg.channel.send(nextArg + ', ' + removeWordsFromStart(msg.content, 3));
         return;
     }
     // By default, just send the message as given.
-    msg.channel.send(msg.content.split(' ').splice(2,).join(' '));
+    msg.channel.send(removeWordsFromStart(msg.content, 2));
 }
 
 /**
