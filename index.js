@@ -156,7 +156,7 @@ const help = function(msg) {
         + "\n ● tell <user> [message]: Makes me say something. Optionally a"
             + " I can tell the message to a specific user, just tell me their"
             + " name!"
-        + "\nIf you want me to do something, just say my name!");
+        + "\n\nIf you want me to do something, just say my name!");
 }
 
 /**
