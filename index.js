@@ -1,15 +1,15 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
-/*client.on('ready', () => {
-    console.log('Logged in as ${client.user.tag}');
-})*/
-
-/*client.on('message', msg => {
+bot.on('message', msg => {
     if (msg.author.bot) return;
-    if (msg.content === 'ping') {
-        msg.reply('Pong!');
+    switch (msg.content) {
+        case 'Ping':
+        case 'ping':
+            msg.reply('Pong!');
+            break;
+        default:
     }
-});*/
+});
 
-client.login('NzA1MjAzMDA1MzEzNzc3Nzk2.XqoSCw.i5fufSus3kRazOgb7l5sgvL1xgM');
+bot.login('NzA1MjAzMDA1MzEzNzc3Nzk2.XqoSCw.i5fufSus3kRazOgb7l5sgvL1xgM');
