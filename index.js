@@ -98,10 +98,10 @@ const removeWordsFromStart = function(str, amount) {
 */
 const tell = function (cmds, msg) {
     const nextArg = cmds.next();
-    if (nextArg) {
+    if (nextArg && cmds.length >= 4) {
         /*  Check for mentions right after the command, and add a comma if
             it exists.                                                     */
-        if (nextArg.startsWith('<@') && cmds.length >= 4) {
+        if (nextArg.startsWith('<@')) {
             msg.channel.send(nextArg + ', '
                 + removeWordsFromStart(msg.content, 3));
             return;
