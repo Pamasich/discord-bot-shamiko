@@ -32,9 +32,14 @@ bot.on('message', msg => {
         /*  These are the main functionality commands.
             Further sub-commands can be used to fine-tune functionality. */
         switch (msgParts.next()) {
-            // TODO: Test command, remove later
-            case 'ping':
-                msg.reply('Pong!');
+            // Returns information regarding a specified topic.
+            case 'info':
+                switch (msgParts.next()) {
+                    // Joke cases
+                    case 'nemesis':
+                        msg.reply("Momo is my nemesis and she's really cool.");
+                    default:
+                }
                 break;
             default:
         }
