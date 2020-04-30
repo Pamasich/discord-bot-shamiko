@@ -5,7 +5,8 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 //------------------------
-// Message Event Handler
+// Bot Event Handlers
+
 bot.on('message', msg => {
     /*  The message is expected to consist of a series of commands,
         so we start off by splitting them into those individual commands.
@@ -40,13 +41,17 @@ const handleCommands = function (cmds, msg) {
         when her name is called.
         The regex allows for a comma to follow her name, to better
         distinguish the main command from the later ones.               */
-    if (/^shamiko,?$/.test(msgParts.initial())) {
+    if (/^shamiko,?$/.test(cmds.initial())) {
         /*  These are the available commands.
             Each command is in its own function defined further down. */
-        switch (msgParts.next()) {
+        switch (cmds.next()) {
             case 'tell':
             case 'info':
-                info(msgParts, msg);
+                info(cmds, msg);
+                break;
+            case 'commands':
+            case 'help':
+                help(msg);
                 break;
             default:
                 msg.reply("I don't understand what you want me to do.");
@@ -64,6 +69,9 @@ const handleCommands = function (cmds, msg) {
 */
 const info = function (cmds, msg) {
     switch (cmds.next()) {
+        case 'commands':
+            help(msg);
+            break;
         // Joke cases
         case 'yourself':
         case 'shamiko':
@@ -92,6 +100,21 @@ const info = function (cmds, msg) {
         default:
             msg.reply("I'm not a very knowledgeable demon.");
     }
+}
+
+/**
+    Displays a list of commands the bot knows about.
+    @param msg The message itself
+*/
+const help = function(msg) {
+    msg.reply("Thanks for using me, I'll do my best!"
+        + "\nI'm not a very knowledgeable demon, but this is what I know"
+            + " how to do:"
+        + "\n ● help: I'll tell you what I can do. I'll repeat myself as often"
+            + " as you need me to!"
+        + "\n ● info [keyword]: You want to know something? I'll gladly tell"
+            + " you if I know about it!"
+        + "\nIf you want me to do something, just say my name!");
 }
 
 /*  The bot's token, needed to identify it.
