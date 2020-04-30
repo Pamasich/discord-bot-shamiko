@@ -56,6 +56,7 @@ bot.on('message', msg => {
                         break;
                     case 'box':
                         msg.reply("Ah, that's where my dad lives.");
+                        break;
                     default:
                         msg.reply("I'm not a very knowledgeable demon.");
                 }
