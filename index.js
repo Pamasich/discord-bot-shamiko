@@ -36,6 +36,7 @@ bot.on('message', msg => {
             case 'info':
                 switch (msgParts.next()) {
                     // Joke cases
+                    case 'momo':
                     case 'nemesis':
                         msg.reply("Momo is my nemesis and she's really cool.");
                         break;
