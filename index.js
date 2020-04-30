@@ -29,6 +29,7 @@ bot.on('message', msg => {
 
 //-------------
 // Functions
+
 /**
     The function that handles the main functionality commands.
     @param cmds The message content, split by words.
