@@ -10,6 +10,7 @@ const bot = new Discord.Client();
     TODO: Ganbare command
     TODO: Typescript
     TODO: Fix @param msg
+    TODO: Hug command
 */
 
 //------------------------
@@ -62,7 +63,8 @@ const handleCommands = function (cmds, msg) {
                 help(msg);
                 break;
             case 'ganbare':
-                ganbare(msg, null);
+                ganbare(msg,
+                    (cmds.length >= 3) ? cmds.splice(2,).join(' ') : null);
                 break;
             default:
                 msg.reply("I don't understand what you want me to do.");
@@ -135,7 +137,7 @@ const help = function(msg) {
 */
 const ganbare = function(msg, topic) {
     let reply = "Yes, I'll give it my all";
-    if (topic !== null) reply = reply + " and try to " + topic;
+    if (topic !== null) reply = reply + " and " + topic;
     msg.reply(reply + "!");
 }
 
