@@ -38,10 +38,13 @@ bot.on('message', msg => {
                     // Joke cases
                     case 'nemesis':
                         msg.reply("Momo is my nemesis and she's really cool.");
+                        break;
                     default:
+                        msg.reply("I'm not a very knowledgeable demon.");
                 }
                 break;
             default:
+                msg.reply("I don't understand what you want me to do.");
         }
     }
 });
