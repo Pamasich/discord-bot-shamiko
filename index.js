@@ -68,6 +68,15 @@ const handleCommands = function (cmds, msg) {
     }
 }
 
+/**
+    Retrieves the login token from a file in the same directory as this one.
+    @returns {string} The token
+*/
+const getToken = function() {
+    fs = require('fs');
+    return token = fs.readFileSync('./token.txt', 'utf-8').trim();
+}
+
 //-------------
 // Commands
 
@@ -160,6 +169,5 @@ const ganbare = function(msg, topic) {
     msg.reply(reply + "!");
 }
 
-/*  The bot's token, needed to identify it.
-    Can be found in the Developer Portal.   */
-bot.login('NzA1MjAzMDA1MzEzNzc3Nzk2.XqoSCw.i5fufSus3kRazOgb7l5sgvL1xgM');
+// Login to the bot's account.
+bot.login(getToken());
