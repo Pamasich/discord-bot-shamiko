@@ -18,6 +18,8 @@ const bot = new Discord.Client();
 // Bot Event Handlers
 
 bot.on('message', msg => {
+    if (msg.author === bot.user) return;
+
     /*  The message is expected to consist of a series of commands,
         so we start off by splitting them into those individual commands.
         They are also mapped to lowercase to simplify later comparisons.  */
