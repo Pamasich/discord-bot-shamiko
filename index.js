@@ -12,6 +12,8 @@ const bot = new Discord.Client();
     TODO: Hug command
     TODO: Remove hardcoded numbers
     TODO: Github
+    TODO: Make tell command recognize non-mentions as users, turn into mention,
+    use null to not mention that user
 */
 
 //------------------------
