@@ -3,8 +3,7 @@ const bot = new Discord.Client();
 
 bot.on('message', msg => {
     if (msg.author.bot) return;
-    switch (msg.content) {
-        case 'Ping':
+    switch (msg.content.toLowerCase()) {
         case 'ping':
             msg.reply('Pong!');
             break;
