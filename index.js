@@ -9,7 +9,6 @@ const bot = new Discord.Client();
     TODO: Organic mode
     TODO: Ganbare command
     TODO: Typescript
-    TODO: Fix @param msg
     TODO: Hug command
 */
 
@@ -42,8 +41,8 @@ bot.on('message', msg => {
 
 /**
     The function that handles the main functionality commands.
-    @param cmds The message content, split by words.
-    @param msg The message itself
+    @param {string[]} cmds The message content, split by words.
+    @param {Message} msg The Message object used to reply
 */
 const handleCommands = function (cmds, msg) {
     /*  "shamiko" is the entry point for the bot, Shamiko only listens
@@ -77,8 +76,8 @@ const handleCommands = function (cmds, msg) {
 
 /**
     Returns information regarding a specified topic.
-    @param cmds The message content, split by words.
-    @param msg The message itself
+    @param {string[]} cmds The message content, split by words.
+    @param {Message} msg The Message object used to reply
 */
 const info = function (cmds, msg) {
     switch (cmds.next()) {
@@ -117,7 +116,7 @@ const info = function (cmds, msg) {
 
 /**
     Displays a list of commands the bot knows about.
-    @param msg The message itself
+    @param {Message} msg The Message object used to reply
 */
 const help = function(msg) {
     msg.reply("Thanks for using me, I'll do my best!"
@@ -132,8 +131,8 @@ const help = function(msg) {
 
 /**
     Makes Shamiko say she's going to give her her best.
-    @param msg The message itself
-    @param topic What she should give her best at
+    @param {Message} msg The Message object used to reply
+    @param {string} topic What she should give her best at
 */
 const ganbare = function(msg, topic) {
     let reply = "Yes, I'll give it my all";
