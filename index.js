@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 // Objects
 const bot = new Discord.Client();
 
+//------------------------
 // Message Event Handler
 bot.on('message', msg => {
     /*  The message is expected to consist of a series of commands,
@@ -23,53 +24,74 @@ bot.on('message', msg => {
     }
     msgParts.next = function () {return this[++this.current];}
 
-    /*  Here the main logic happens.
-        The 'shamiko' command is where it all begins, Shamiko only
-        listens when her name is called!
+    handleCommands(msgParts, msg);
+});
+
+//-------------
+// Functions
+/**
+    The function that handles the main functionality commands.
+    @param cmds The message content, split by words.
+    @param msg The message itself
+*/
+const handleCommands = function (cmds, msg) {
+    /*  "shamiko" is the entry point for the bot, Shamiko only listens
+        when her name is called.
         The regex allows for a comma to follow her name, to better
-        distinguish the main command from the later ones.           */
+        distinguish the main command from the later ones.               */
     if (/^shamiko,?$/.test(msgParts.initial())) {
-        /*  These are the main functionality commands.
-            Further sub-commands can be used to fine-tune functionality. */
+        /*  These are the available commands.
+            Each command is in its own function defined further down. */
         switch (msgParts.next()) {
-            // Returns information regarding a specified topic.
             case 'tell':
             case 'info':
-                switch (msgParts.next()) {
-                    // Joke cases
-                    case 'yourself':
-                    case 'shamiko':
-                        msg.reply("I'm your friendly neighborhood demon.");
-                        break;
-                    case 'momo':
-                    case 'nemesis':
-                        msg.reply("Momo is my nemesis and she's really cool.");
-                        break;
-                    case 'ancestor':
-                    case 'gosenzo':
-                        msg.reply("My ancestor is very cool, "
-                            + "though a bit lewd.");
-                        break;
-                    case 'mikan':
-                    case 'tangerine':
-                    case 'orange':
-                        msg.reply("Mikan really likes tangerines.");
-                        break;
-                    case 'winstreak':
-                        msg.reply("D..D..Don't think that means she has won!");
-                        break;
-                    case 'box':
-                        msg.reply("Ah, that's where my dad lives.");
-                        break;
-                    default:
-                        msg.reply("I'm not a very knowledgeable demon.");
-                }
+                info(msgParts, msg);
                 break;
             default:
                 msg.reply("I don't understand what you want me to do.");
         }
     }
-});
+}
+
+//-------------
+// Commands
+
+/**
+    Returns information regarding a specified topic.
+    @param cmds The message content, split by words.
+    @param msg The message itself
+*/
+const info = function (cmds, msg) {
+    switch (cmds.next()) {
+        // Joke cases
+        case 'yourself':
+        case 'shamiko':
+            msg.reply("I'm your friendly neighborhood demon.");
+            break;
+        case 'momo':
+        case 'nemesis':
+            msg.reply("Momo is my nemesis and she's really cool.");
+            break;
+        case 'ancestor':
+        case 'gosenzo':
+            msg.reply("My ancestor is very cool, "
+                + "though a bit lewd.");
+            break;
+        case 'mikan':
+        case 'tangerine':
+        case 'orange':
+            msg.reply("Mikan really likes tangerines.");
+            break;
+        case 'winstreak':
+            msg.reply("D..D..Don't think that means she has won!");
+            break;
+        case 'box':
+            msg.reply("That's where my dad lives.");
+            break;
+        default:
+            msg.reply("I'm not a very knowledgeable demon.");
+    }
+}
 
 /*  The bot's token, needed to identify it.
     Can be found in the Developer Portal.   */
