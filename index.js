@@ -4,6 +4,22 @@ const Discord = require('discord.js');
 // Objects
 const bot = new Discord.Client();
 
+// Map of commands and their help page information
+const commandMap = new Map();
+
+//------------------------
+// Enums
+
+// Available command groups
+const CommandGroupEnum = {
+    FUN: 'fun',
+    MUSIC: 'music',
+    MEDIA: 'media',
+    MODERATION: 'moderation',
+    PRIVATE: 'private',
+    INFORMATIONAL: 'informational'
+}
+
 //------------------------
 // Bot Event Handlers
 
@@ -57,7 +73,7 @@ const handleCommands = function (cmds, msg) {
                 break;
             case 'commands':
             case 'help':
-                help(msg);
+                help(cmds, msg);
                 break;
             case 'ganbare':
                 ganbare(msg,
@@ -146,6 +162,32 @@ const tell = function (cmds, msg) {
         msg.channel.send(removeWordsFromStart(msg.content, 2));
     }
 }
+commandMap.set('tell', {
+    desc: "Makes me say something.\nYou can include a target user if you want,"
+        + " I will mention them in my message. If your message starts with a"
+        + " username, but you don't want me to mention them, use a `-` as seen"
+        + " in the example!"
+        + "\nOnce I'm done, I will delete your message.",
+    aliases: ['say'],
+    group: CommandGroupEnum.FUN,
+    syntax: 'tell <target> [message]',
+    usages: [
+        {usage: 'tell something', desc: "I will say 'something'."},
+        {usage: 'tell me something', desc: "I will tell you 'something'."},
+        {
+            usage: 'tell @Shamiko something',
+            desc: "I will mention @Shamiko and tell them 'something'."
+        },
+        {
+            usage: 'tell shamiko something',
+            desc: "I will mention @Shamiko and tell them 'something'."
+        },
+        {
+            usage: 'tell - shamiko something',
+            desc: "I will say 'shamiko something'."
+        }
+    ]
+});
 
 /**
     Returns information regarding a specified topic.
@@ -186,13 +228,50 @@ const info = function (cmds, msg) {
             msg.reply("I'm not a very knowledgeable demon.");
     }
 }
+commandMap.set('info', {
+    desc: "You want to know something?"
+        + "I'll gladly tell you if I know about it!",
+    aliases: [],
+    group: CommandGroupEnum.INFORMATION,
+    syntax: 'info [topic]',
+    usages: [
+        {usage: 'info shamiko', desc: "I will tell you about myself."},
+        {usage: 'info commands', desc: "I will tell you what I can do."}
+    ]
+});
 
 /**
     Displays a list of commands the bot knows about.
+    @param {string[]} cmds The message content, split by words.
     @param {Message} msg The Message object used to reply
 */
-const help = function(msg) {
-    msg.reply("Thanks for using me, I'll do my best!"
+const help = function(cmds, msg) {
+    const checkIfCommandGroup = (ctx) => {
+        return Array.from(Object.values(CommandGroupEnum)).find((item) => {
+            return item.toLowerCase() == ctx;
+        });
+    }
+    const tooManyArgsError = () => {
+        msg.reply("you gave too many arguments and overloaded this poor"
+            + " demon's brain!");
+    }
+
+    // Only 'shamiko' and 'help' have been given
+    if (cmds.length == 2) {
+        // display general help
+    } else if (cmds.length == 3) { // A context has been given
+        const ctx = cmds.next(); // The context to display
+        if (checkIfCommandGroup(ctx)) {
+            // show command group embed for ctx
+        } else if (commandMap.get(ctx)) { // Check if the context is a command
+            // show command embed for ctx
+        } else {
+            tooManyArgsError();
+        }
+    } else {
+        tooManyArgsError();
+    }
+    /*msg.reply("Thanks for using me, I'll do my best!"
         + "\nI'm not a very knowledgeable demon, but this is what I know"
             + " how to do:"
         + "\n ● help: I'll tell you what I can do. I'll repeat myself as often"
@@ -205,8 +284,31 @@ const help = function(msg) {
             + " I can tell the message to a target user, just tell me their"
             + " name! If you want to start a message with a name but don't"
             + " want me to mention them, use a ' - ' before the name."
-        + "\n\nIf you want me to do something, just say my name!");
+        + "\n\nIf you want me to do something, just say my name!");*/
 }
+commandMap.set('help', {
+    desc: "I'll tell you what I can do. I'll repeat myself as often"
+        + " as you need me to!"
+        + "\nYou can also give me a group or command and I'll tell you more"
+        + " about it!",
+    aliases: ['commands'],
+    group: CommandGroupEnum.INFORMATIONAL,
+    syntax: 'help <group|command>',
+    usages: [
+        {
+            usage: 'help',
+            desc: "I will list the groups of commands I know about."
+        },
+        {
+            usage: 'help fun',
+            desc: "I will list the commands of the 'fun' group I know about."
+        },
+        {
+            usage: 'help tell',
+            desc: "I will tell you about the 'tell' command."
+        }
+    ]
+});
 
 /**
     Makes Shamiko say she's going to give her her best.
@@ -218,6 +320,26 @@ const ganbare = function(msg, topic) {
     if (topic !== null) reply = reply + " and " + topic;
     msg.reply(reply + "!");
 }
+commandMap.set('ganbare', {
+    desc: "Tells me to do my best. Optionally may include what I should give"
+        + "my best at.",
+    aliases: [],
+    group: CommandGroupEnum.FUN,
+    syntax: 'ganbare <topic>',
+    usages: [
+        {
+            usage: 'ganbare',
+            desc: "I will show that I have received the command and henceforth"
+                + " give my best!"
+        },
+        {
+            usage: 'ganbare become a demon that can kiss her nemesis',
+            desc: "I will show that I have received the command and henceforth"
+                + " give my best so I one day become a demon that can kiss her"
+                + " nemesis."
+        }
+    ]
+});
 
 // Login to the bot's account.
 bot.login(getToken());
