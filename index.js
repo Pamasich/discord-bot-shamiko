@@ -4,18 +4,6 @@ const Discord = require('discord.js');
 // Objects
 const bot = new Discord.Client();
 
-/*
-    TODO: Say command
-    TODO: Organic mode
-    TODO: Ganbare command
-    TODO: Typescript
-    TODO: Hug command
-    TODO: Remove hardcoded numbers
-    TODO: Github
-    TODO: Make tell command recognize non-mentions as users, turn into mention,
-    use null to not mention that user
-*/
-
 //------------------------
 // Bot Event Handlers
 
