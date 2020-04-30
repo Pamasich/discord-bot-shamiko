@@ -98,13 +98,17 @@ const removeWordsFromStart = function(str, amount) {
 */
 const tell = function (cmds, msg) {
     const nextArg = cmds.next();
-    // Check for mentions right after the command, and add a comma if it exists.
-    if (nextArg && nextArg.startsWith('<@') && cmds.length >= 4) {
-        msg.channel.send(nextArg + ', ' + removeWordsFromStart(msg.content, 3));
-        return;
+    if (nextArg) {
+        /*  Check for mentions right after the command, and add a comma if
+            it exists.                                                     */
+        if (nextArg.startsWith('<@') && cmds.length >= 4) {
+            msg.channel.send(nextArg + ', '
+                + removeWordsFromStart(msg.content, 3));
+            return;
+        }
+        // By default, just send the message as given.
+        msg.channel.send(removeWordsFromStart(msg.content, 2));
     }
-    // By default, just send the message as given.
-    msg.channel.send(removeWordsFromStart(msg.content, 2));
 }
 
 /**
