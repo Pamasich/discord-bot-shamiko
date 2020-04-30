@@ -6,8 +6,14 @@ bot.on('message', msg => {
                         .split(' ')
                         .map(cmd => cmd.toLowerCase());
 
-    if (msgParts[0] === 'shamiko') {
-        switch (msgParts[1]) {
+    msgParts.initial = function () {
+        this.current = 0;
+        return this[this.current];
+    }
+    msgParts.next = function () {return this[++this.current];}
+
+    if (msgParts.initial() === 'shamiko') {
+        switch (msgParts.next()) {
             case 'ping':
                 msg.reply('Pong!');
                 break;
