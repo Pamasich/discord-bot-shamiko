@@ -87,6 +87,17 @@ const removeWordsFromStart = function(str, amount) {
     return str.split(' ').splice(amount).join(' ');
 }
 
+/**
+    Retrieves a user based on its username.
+    @param {string} str The username to look for
+    @returns {User} The user with the given username
+*/
+const getUserByName = function(str) {
+    return Array.from(bot.users.cache.values()).find((item) => {
+        return item.username.toLowerCase() === str;
+    });
+}
+
 //-------------
 // Commands
 
@@ -98,18 +109,33 @@ const removeWordsFromStart = function(str, amount) {
 */
 const tell = function (cmds, msg) {
     const nextArg = cmds.next();
-    if (nextArg && cmds.length >= 4) {
-        /*  Check for mentions right after the command, and add a comma if
-            it exists.                                                     */
-        if (nextArg.startsWith('<@')) {
-            msg.channel.send(nextArg + ', '
-                + removeWordsFromStart(msg.content, 3));
-            return;
-        }
-        // If a user specifies 'me', the bot should mention the requesting user.
-        if (nextArg === 'me') {
-            msg.reply(removeWordsFromStart(msg.content, 3));
-            return;
+    // Checks if there is an argument specifying what to say
+    if (nextArg) {
+        // Checks if there's a target given
+        if (cmds.length >= 4) {
+            if (nextArg !== '-') {
+                // If target is a mention, add a comma after it.
+                if (nextArg.startsWith('<@')) {
+                    msg.channel.send(nextArg + ', '
+                        + removeWordsFromStart(msg.content, 3));
+                    return;
+                }
+                // If target is 'me', reply to the message.
+                if (nextArg === 'me') {
+                    msg.reply(removeWordsFromStart(msg.content, 3));
+                    return;
+                }
+                // If target is a username, generate a mention for it.                               */
+                if (getUserByName(nextArg)) {
+                    const mention = '<@' + getUserByName(nextArg).id + '>';
+                    msg.channel.send(mention + ', '
+                        + removeWordsFromStart(msg.content, 3));
+                    return;
+                }
+            } else {
+                msg.channel.send(removeWordsFromStart(msg.content, 3));
+                return;
+            }
         }
         // By default, just send the message as given.
         msg.channel.send(removeWordsFromStart(msg.content, 2));
