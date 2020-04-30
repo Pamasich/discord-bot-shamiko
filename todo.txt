@@ -3,3 +3,4 @@ TODO: Typescript
 TODO: Hug command
 TODO: Remove hardcoded numbers
 TODO: Refactor help message
+TODO: Don't make shamiko answer when only her name is said
