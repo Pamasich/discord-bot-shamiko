@@ -40,6 +40,21 @@ bot.on('message', msg => {
                     case 'nemesis':
                         msg.reply("Momo is my nemesis and she's really cool.");
                         break;
+                    case 'ancestor':
+                    case 'gosenzo':
+                        msg.reply("My ancestor is very cool, "
+                            + "though a bit lewd.");
+                        break;
+                    case 'mikan':
+                    case 'tangerine':
+                    case 'orange':
+                        msg.reply("Mikan really likes tangerines.");
+                        break;
+                    case 'winstreak':
+                        msg.reply("D..D..Don't think that means she has won!");
+                        break;
+                    case 'box':
+                        msg.reply("Ah, that's where my dad lives.");
                     default:
                         msg.reply("I'm not a very knowledgeable demon.");
                 }
