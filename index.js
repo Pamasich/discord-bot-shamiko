@@ -50,6 +50,7 @@ const handleCommands = function (cmds, msg) {
             case 'tell':
             case 'say':
                 tell(cmds, msg);
+                //console.log(msg);
                 break;
             case 'info':
                 info(cmds, msg);
@@ -88,13 +89,16 @@ const removeWordsFromStart = function(str, amount) {
 }
 
 /**
-    Retrieves a user based on its username.
+    Retrieves a server member based on its username.
+    Also returns true if the string matches a user's nickname.
     @param {string} str The username to look for
+    @param {Guild} server The current Discord server
     @returns {User} The user with the given username
 */
-const getUserByName = function(str) {
-    return Array.from(bot.users.cache.values()).find((item) => {
-        return item.username.toLowerCase() === str;
+const getUserByName = function(str, server) {
+    return Array.from(server.members.cache.values()).find((item) => {
+        return item.nickname?.toLowerCase() == str
+            || item.user.username.toLowerCase() === str;
     });
 }
 
@@ -126,8 +130,9 @@ const tell = function (cmds, msg) {
                     return;
                 }
                 // If target is a username, generate a mention for it.                               */
-                if (getUserByName(nextArg)) {
-                    const mention = '<@' + getUserByName(nextArg).id + '>';
+                if (getUserByName(nextArg, msg.guild)) {
+                    const mention =
+                        '<@' + getUserByName(nextArg, msg.guild).id + '>';
                     msg.channel.send(mention + ', '
                         + removeWordsFromStart(msg.content, 3));
                     return;
