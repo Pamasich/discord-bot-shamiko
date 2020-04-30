@@ -9,6 +9,7 @@ const bot = new Discord.Client();
     TODO: Organic mode
     TODO: Ganbare command
     TODO: Typescript
+    TODO: Fix @param msg
 */
 
 //------------------------
@@ -59,6 +60,9 @@ const handleCommands = function (cmds, msg) {
             case 'commands':
             case 'help':
                 help(msg);
+                break;
+            case 'ganbare':
+                ganbare(msg, null);
                 break;
             default:
                 msg.reply("I don't understand what you want me to do.");
@@ -122,6 +126,17 @@ const help = function(msg) {
         + "\n ● info [keyword]: You want to know something? I'll gladly tell"
             + " you if I know about it!"
         + "\nIf you want me to do something, just say my name!");
+}
+
+/**
+    Makes Shamiko say she's going to give her her best.
+    @param msg The message itself
+    @param topic What she should give her best at
+*/
+const ganbare = function(msg, topic) {
+    let reply = "Yes, I'll give it my all";
+    if (topic !== null) reply = reply + " and try to " + topic;
+    msg.reply(reply + "!");
 }
 
 /*  The bot's token, needed to identify it.
