@@ -10,6 +10,8 @@ const bot = new Discord.Client();
     TODO: Ganbare command
     TODO: Typescript
     TODO: Hug command
+    TODO: Remove hardcoded numbers
+    TODO: Github
 */
 
 //------------------------
@@ -54,6 +56,9 @@ const handleCommands = function (cmds, msg) {
             Each command is in its own function defined further down. */
         switch (cmds.next()) {
             case 'tell':
+            case 'say':
+                tell(cmds, msg);
+                break;
             case 'info':
                 info(cmds, msg);
                 break;
@@ -73,6 +78,24 @@ const handleCommands = function (cmds, msg) {
 
 //-------------
 // Commands
+
+/**
+    Makes the bot say something. May include a user's name, in which case
+    the bot will mention that user.
+    @param {string[]} cmds The message content, split by words.
+    @param {Message} msg The Message object used to reply
+*/
+const tell = function (cmds, msg) {
+    const nextArg = cmds.next();
+    // Check for mentions right after the command, and add a comma if it exists.
+    if (nextArg !== undefined && nextArg.startsWith('<@') && cmds.length >= 4) {
+        msg.channel.send(nextArg
+            + ', ' + msg.content.split(' ').splice(3,).join(' '));
+        return;
+    }
+    // By default, just send the message as given.
+    msg.channel.send(msg.content.split(' ').splice(2,).join(' '));
+}
 
 /**
     Returns information regarding a specified topic.
