@@ -2,12 +2,14 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 bot.on('message', msg => {
-    if (msg.author.bot) return;
-    switch (msg.content.toLowerCase()) {
-        case 'ping':
-            msg.reply('Pong!');
-            break;
-        default:
+    const msgParts = msg.content.split(" ");
+    if (msgParts[0].toLowerCase() === 'shamiko') {
+        switch (msgParts[1].toLowerCase()) {
+            case 'ping':
+                msg.reply('Pong!');
+                break;
+            default:
+        }
     }
 });
 
