@@ -12,7 +12,7 @@ bot.on('message', msg => {
     }
     msgParts.next = function () {return this[++this.current];}
 
-    if (msgParts.initial() === 'shamiko') {
+    if (/^shamiko,?$/.test(msgParts.initial())) {
         switch (msgParts.next()) {
             case 'ping':
                 msg.reply('Pong!');
