@@ -1,6 +1,4 @@
-TODO: Say command
 TODO: Organic mode
-TODO: Ganbare command
 TODO: Typescript
 TODO: Hug command
 TODO: Remove hardcoded numbers
