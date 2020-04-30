@@ -2,3 +2,4 @@ TODO: Organic mode
 TODO: Typescript
 TODO: Hug command
 TODO: Remove hardcoded numbers
+TODO: Refactor help message
