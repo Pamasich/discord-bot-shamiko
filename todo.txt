@@ -2,4 +2,3 @@ TODO: Organic mode
 TODO: Typescript
 TODO: Hug command
 TODO: Remove hardcoded numbers
-TODO: Delete message requesting tell

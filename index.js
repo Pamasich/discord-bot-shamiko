@@ -50,7 +50,7 @@ const handleCommands = function (cmds, msg) {
             case 'tell':
             case 'say':
                 tell(cmds, msg);
-                //console.log(msg);
+                msg.delete();
                 break;
             case 'info':
                 info(cmds, msg);
