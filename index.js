@@ -154,7 +154,8 @@ const help = function(msg) {
         + "\n ● ganbare <topic>: Tells me to give it my best. You may"
             + " optionally include what I should do my best at."
         + "\n ● tell <user> [message]: Makes me say something. Optionally a"
-            + " I can tell the message to a specific user, just me their name!"
+            + " I can tell the message to a specific user, just tell me their"
+            + " name!"
         + "\nIf you want me to do something, just say my name!");
 }
 
