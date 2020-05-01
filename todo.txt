@@ -4,3 +4,4 @@ TODO: Hug command
 TODO: Remove hardcoded numbers
 TODO: Don't make shamiko answer when only her name is said
 TODO: Groups without commands crash the bot
+TODO: Don't have the bot reply when it's asked about the private group or stuff in it
