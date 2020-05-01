@@ -222,7 +222,7 @@ commandMap.set('info', {
     desc: "You want to know something?"
         + "I'll gladly tell you if I know about it!",
     aliases: [],
-    group: CommandGroupEnum.INFORMATION,
+    group: CommandGroupEnum.INFORMATIONAL,
     syntax: 'info [topic]',
     usages: [
         {usage: 'info shamiko', desc: "I will tell you about myself."},
@@ -250,53 +250,72 @@ const help = function(cmds, msg) {
             .setAuthor('Shamiko')
             .setFooter('shamiko help <command|group>');
     }
+    const generateInlineCodeList = (arr) => {
+        return arr.map((item) => '`' + item + '`').join(' ');
+    }
+    const getCommandGroups = () => {
+        return generateInlineCodeList(
+            Object.values(CommandGroupEnum)
+                .filter((item) => item !== CommandGroupEnum.PRIVATE));
+    }
+    const getCommandsFor = (group) => {
+        return generateInlineCodeList(Array.from(commandMap.keys())
+            .filter((key) => commandMap.get(key).group === group));
+    }
+    const capitalize = (word) => {
+        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+    }
+    const buildGroupEmbed = (group) => {
+        return buildBaseHelpEmbed()
+            .setTitle('Command Help - ' + capitalize(group) + ' Group')
+            .setDescription("I'll tell you what I can do! Just ask me again"
+                + " and include one of the following commands this time!")
+            .addField('Commands', getCommandsFor(group));
+    }
+    const buildGroupsEmbed = () => {
+        return buildBaseHelpEmbed()
+            .setTitle('Command Help - Groups')
+            .setDescription("I'll tell you what I can do! Just ask me again and"
+                + " include a command this time! You can also use one of the"
+                + " following command groups if you want me to tell you a list"
+                + " of commands.")
+            .addField('Command Groups', getCommandGroups());
+    }
+    const combineUsages = (usagesArr) => {
+        return usagesArr
+            .map((usage) => '`' + usage.usage + '` ' + usage.desc)
+            .join('\n');
+    }
+    const buildCommandEmbed = (command) => {
+        commandObject = commandMap.get(command);
+        return buildBaseHelpEmbed()
+            .setTitle('Command Help - ' + capitalize(command))
+            .setDescription(commandObject.desc)
+            .addField('Aliases', (commandObject.aliases.length != 0)
+                ? generateInlineCodeList(commandObject.aliases)
+                : 'None', true)
+            .addField('Syntax', "`" + commandObject.syntax + "`", true)
+            .addField('Group', "`" + commandObject.group + "`", true)
+            .addField('Usages', combineUsages(commandObject.usages));
+    }
 
     const syntaxExplanation = '`[]` - replace this\n`<>` - optional';
 
-    // A list of all the command groups as strings in code formatting
-    const commandGroups = Object.values(CommandGroupEnum)
-                            .filter((item) => item !== CommandGroupEnum.PRIVATE)
-                            .map((item) => '`' + item + '`')
-                            .join(' ');
-
-    // The embed for when no command or group has been supplied.
-    const generalEmbed = buildBaseHelpEmbed()
-        .setTitle('Command Help')
-        .setDescription("I'll tell you what I can do! Just ask me again and"
-            + " include a command this time! You can also use one of the"
-            + " following command groups if you want me to tell you a list of"
-            + " commands.")
-        .addField('Command Groups', commandGroups);
-
     // Only 'shamiko' and 'help' have been given
     if (cmds.length == 2) {
-        msg.channel.send(generalEmbed);
+        msg.channel.send(buildGroupsEmbed());
     } else if (cmds.length == 3) { // A context has been given
         const ctx = cmds.next(); // The context to display
         if (checkIfCommandGroup(ctx)) {
-            // show command group embed for ctx
+            msg.channel.send(buildGroupEmbed(ctx));
         } else if (commandMap.get(ctx)) { // Check if the context is a command
-            // show command embed for ctx
+            msg.channel.send(buildCommandEmbed(ctx));
         } else {
             tooManyArgsError();
         }
     } else {
         tooManyArgsError();
     }
-    /*msg.reply("Thanks for using me, I'll do my best!"
-        + "\nI'm not a very knowledgeable demon, but this is what I know"
-            + " how to do:"
-        + "\n ● help: I'll tell you what I can do. I'll repeat myself as often"
-            + " as you need me to!"
-        + "\n ● info [keyword]: You want to know something? I'll gladly tell"
-            + " you if I know about it!"
-        + "\n ● ganbare <topic>: Tells me to give it my best. You may"
-            + " optionally include what I should do my best at."
-        + "\n ● tell <target> [message]: Makes me say something. Optionally"
-            + " I can tell the message to a target user, just tell me their"
-            + " name! If you want to start a message with a name but don't"
-            + " want me to mention them, use a ' - ' before the name."
-        + "\n\nIf you want me to do something, just say my name!");*/
 }
 commandMap.set('help', {
     desc: "I'll tell you what I can do. I'll repeat myself as often"
@@ -334,7 +353,7 @@ const ganbare = function(msg, topic) {
 }
 commandMap.set('ganbare', {
     desc: "Tells me to do my best. Optionally may include what I should give"
-        + "my best at.",
+        + " my best at.",
     aliases: [],
     group: CommandGroupEnum.FUN,
     syntax: 'ganbare <topic>',
