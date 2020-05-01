@@ -237,7 +237,7 @@ commandMap.set('info', {
 */
 const help = function(cmds, msg) {
     const checkIfCommandGroup = (ctx) => {
-        return Array.from(Object.values(CommandGroupEnum)).find((item) => {
+        return Object.values(CommandGroupEnum).find((item) => {
             return item.toLowerCase() == ctx;
         });
     }
