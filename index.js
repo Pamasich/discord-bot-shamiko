@@ -66,7 +66,6 @@ const handleCommands = function (cmds, msg) {
             case 'tell':
             case 'say':
                 tell(cmds, msg);
-                msg.delete();
                 break;
             case 'info':
                 info(cmds, msg);
@@ -95,16 +94,6 @@ const getToken = function() {
 }
 
 /**
-    Removes a specified amount of words from a given string.
-    @param {string} str The string to remove the words from
-    @param {number} amount How many words to remove
-    @returns {string} The input string with the first words removed
-*/
-const removeWordsFromStart = function(str, amount) {
-    return str.split(' ').splice(amount).join(' ');
-}
-
-/**
     Retrieves a server member based on its username.
     Also returns true if the string matches a user's nickname.
     @param {string} str The username to look for
@@ -128,38 +117,39 @@ const getUserByName = function(str, server) {
     @param {Message} msg The Message object used to reply
 */
 const tell = function (cmds, msg) {
-    const nextArg = cmds.next();
-    // Checks if there is an argument specifying what to say
-    if (nextArg) {
-        // Checks if there's a target given
-        if (cmds.length >= 4) {
-            if (nextArg !== '-') {
-                // If target is a mention, add a comma after it.
-                if (nextArg.startsWith('<@')) {
-                    msg.channel.send(nextArg + ', '
-                        + removeWordsFromStart(msg.content, 3));
-                    return;
-                }
-                // If target is 'me', reply to the message.
-                if (nextArg === 'me') {
-                    msg.reply(removeWordsFromStart(msg.content, 3));
-                    return;
-                }
-                // If target is a username, generate a mention for it.                               */
-                if (getUserByName(nextArg, msg.guild)) {
-                    const mention =
-                        '<@' + getUserByName(nextArg, msg.guild).id + '>';
-                    msg.channel.send(mention + ', '
-                        + removeWordsFromStart(msg.content, 3));
-                    return;
-                }
-            } else {
-                msg.channel.send(removeWordsFromStart(msg.content, 3));
-                return;
-            }
+    const finish = () => msg.delete();
+    const stripCommandsFromMsg = (amount) => {
+        return msg.content.split(' ').splice(amount).join(' ');
+    }
+
+    if (cmds.length >= 4) {
+        // Only do this stuff if the argument string is more than one word long
+        target = cmds.next(); // The target of the message
+        // Remove the 'shamiko', 'tell' and the target
+        msgToSend = stripCommandsFromMsg(3);
+        if (target === '-') {
+            // If a - is used, just say it normally.
+            msg.channel.send(msgToSend);
+        } else if (target.startsWith('<@')) {
+            // If target is a mention, add a comma after it.
+            msg.channel.send(target + ', ' + msgToSend);
+        } else if (target === 'me') {
+            // If target is 'me', reply to the message.
+            msg.reply(msgToSend);
+        } else if (getUserByName(target, msg.guild)) {
+            const mention = '<@' + getUserByName(target, msg.guild).id + '>';
+            msg.channel.send(mention + ', ' + msgToSend);
+        } else {
+            msg.channel.send(stripCommandsFromMsg(2));
         }
-        // By default, just send the message as given.
-        msg.channel.send(removeWordsFromStart(msg.content, 2));
+        finish();
+    } else if (cmds.length == 3) {
+        // Alternatively do this if the argument string is just one word
+        msg.channel.send(stripCommandsFromMsg(2));
+        finish();
+    } else {
+        // No argument string has been supplied
+        msg.reply("I'm not sure what you want me to say.");
     }
 }
 commandMap.set('tell', {
@@ -255,10 +245,32 @@ const help = function(cmds, msg) {
         msg.reply("you gave too many arguments and overloaded this poor"
             + " demon's brain!");
     }
+    const buildBaseHelpEmbed = () => {
+        return new Discord.MessageEmbed()
+            .setAuthor('Shamiko')
+            .setFooter('shamiko help <command|group>');
+    }
+
+    const syntaxExplanation = '`[]` - replace this\n`<>` - optional';
+
+    // A list of all the command groups as strings in code formatting
+    const commandGroups = Object.values(CommandGroupEnum)
+                            .filter((item) => item !== CommandGroupEnum.PRIVATE)
+                            .map((item) => '`' + item + '`')
+                            .join(' ');
+
+    // The embed for when no command or group has been supplied.
+    const generalEmbed = buildBaseHelpEmbed()
+        .setTitle('Command Help')
+        .setDescription("I'll tell you what I can do! Just ask me again and"
+            + " include a command this time! You can also use one of the"
+            + " following command groups if you want me to tell you a list of"
+            + " commands.")
+        .addField('Command Groups', commandGroups);
 
     // Only 'shamiko' and 'help' have been given
     if (cmds.length == 2) {
-        // display general help
+        msg.channel.send(generalEmbed);
     } else if (cmds.length == 3) { // A context has been given
         const ctx = cmds.next(); // The context to display
         if (checkIfCommandGroup(ctx)) {
