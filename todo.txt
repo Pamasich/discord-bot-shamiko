@@ -1,1 +1,2 @@
-Sessions (for rock paper scissors)
+remember command
+forget command
