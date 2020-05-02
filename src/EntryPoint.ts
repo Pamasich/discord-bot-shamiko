@@ -1,7 +1,8 @@
 import { Client, Message } from 'discord.js';
 import { readFileSync } from 'fs';
-import { checkForKeyword, stripKeyword } from './CommonFunctions';
+import { checkForKeyword, stripKeyword} from './CommonFunctions';
 import { handlePing } from './commands/Ping';
+import { handleHug } from './commands/Hug';
 
 // The main object used to talk to Discord
 const bot: Client = new Client();
@@ -24,7 +25,12 @@ function handleMessage(msg: Message): void {
         // If someone only writes her name, don't respond
         if (!cmd) return;
         // Decide which command to execute
-        if (checkForKeyword(cmd, 'ping')) handlePing(msg); return;
+        if (checkForKeyword(cmd, 'ping')) {
+            handlePing(msg); return;
+        }
+        if (checkForKeyword(cmd, 'hug')) {
+            handleHug(msg, stripKeyword(cmd, 'hug')); return;
+        }
         // Default reply
         msg.reply("I don't understand what you want me to do.");
     }
