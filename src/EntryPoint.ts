@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { checkForKeyword, stripKeyword} from './CommonFunctions';
 import { handlePing } from './commands/Ping';
 import { handleHug } from './commands/Hug';
+import { handleRPS, RPSType } from './commands/RockPaperScissors';
 
 // The main object used to talk to Discord
 const bot: Client = new Client();
@@ -30,6 +31,15 @@ function handleMessage(msg: Message): void {
         }
         if (checkForKeyword(cmd, 'hug')) {
             handleHug(msg, stripKeyword(cmd, 'hug')); return;
+        }
+        if (/^r(ock)?$/.test(cmd)) {
+            handleRPS(msg, RPSType.Rock); return;
+        }
+        if (/^s(cissor(s)?)?$/.test(cmd)) {
+            handleRPS(msg, RPSType.Scissors); return;
+        }
+        if (/^p(aper)?$/.test(cmd)) {
+            handleRPS(msg, RPSType.Paper); return;
         }
         // Default reply
         msg.reply("I don't understand what you want me to do.");
