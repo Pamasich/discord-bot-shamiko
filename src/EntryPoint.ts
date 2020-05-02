@@ -19,6 +19,8 @@ bot.login(getToken());
     @param msg - The new message
 */
 function handleMessage(msg: Message): void {
+    // If the message's author is the bot itself, don't handle it
+    if (msg.author === bot.user) return;
     // Check if the bot should handle this message
     if (checkForKeyword(msg.content, 'shamiko')) {
         // Removes the keyword from the command

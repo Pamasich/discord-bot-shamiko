@@ -10,6 +10,8 @@ const bot = new discord_js_1.Client();
 bot.on('message', msg => handleMessage(msg));
 bot.login(getToken());
 function handleMessage(msg) {
+    if (msg.author === bot.user)
+        return;
     if (CommonFunctions_1.checkForKeyword(msg.content, 'shamiko')) {
         const cmd = CommonFunctions_1.stripKeyword(msg.content, 'shamiko');
         if (!cmd)
