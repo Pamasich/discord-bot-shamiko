@@ -1,5 +1,7 @@
 import { Message } from 'discord.js';
 import { random, floor } from 'mathjs';
+import { getOrCreateSession } from '../sessions/SessionManager';
+import { Session } from '../sessions/Session';
 
 /**
     Plays Rock Paper Scissors.
@@ -8,6 +10,9 @@ import { random, floor } from 'mathjs';
 */
 export function handleRPS(msg: Message, input: RPSType): void {
     const randomNum: number = randomRPSType();
+    const session: Session = getOrCreateSession(
+        'rock-paper-scissors', msg.author, 60
+    );
     let answer: string | undefined = undefined;
     // Victory case
     if (
@@ -15,6 +20,8 @@ export function handleRPS(msg: Message, input: RPSType): void {
         || randomNum === RPSType['Paper'] && input === RPSType.Scissors
         || randomNum === RPSType['Scissors'] && input === RPSType.Rock
     ) {
+        session.set('turns', session.getNumber('turns')+1);
+        session.set('victories', session.getNumber('victories')+1);
         answer = "you beat me... but don't think that means you've won!";
     // Tie case
     } else if (
@@ -25,10 +32,18 @@ export function handleRPS(msg: Message, input: RPSType): void {
         answer = "it's a tie!"
     // Loss case
     } else {
+        session.set('turns', session.getNumber('turns')+1);
         answer = "I won!";
     }
     // Answering
-    msg.reply(RPSType[randomNum] + ', ' + answer);
+    msg.reply(RPSType[randomNum] + ', ' + answer
+        + '\n```' // Code formatting start
+        + '\nTotal Attempts: ' + session.getNumber('turns')
+        + '\nI won:          '
+        + (session.getNumber('turns') - session.getNumber('victories'))
+        + '\nYou won:        ' + session.getNumber('victories')
+        + '\n```' // Code formatting end
+    );
 }
 
 /** Holds the valid choices the user and shamiko can make. */

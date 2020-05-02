@@ -31,9 +31,13 @@ export function createSession(
 export function getSession(topic: string, user: User): Session | undefined {
     // Filter out any expired sessions
     sessions = sessions.filter(session => {
-        return abs(session
-            .getLastUpdate()
-            .diff(moment(), 'minutes')) > session.lifetime;
+        return !(
+            abs(
+                session
+                .getLastUpdate()
+                .diff(moment(), 'minutes')
+            ) > session.lifetime
+        );
     });
     // Look for the target session
     return sessions.find(session => {
@@ -56,5 +60,5 @@ export function getOrCreateSession(
     lifetime: number
 ): Session {
     createSession(topic, user, lifetime);
-    return getSession(topic, user);
+    return getSession(topic, user) as Session;
 }

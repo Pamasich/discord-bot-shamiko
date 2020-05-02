@@ -6,7 +6,7 @@ import moment from 'moment';
 */
 export class Session {
     private lastUpdate: moment.Moment = moment();
-    private ctx: Map<string, string> = new Map();
+    private ctx: Map<string, any> = new Map();
     /** The user associated with this sesson. */
     readonly user: User;
     /** The topic this session is about. */
@@ -33,7 +33,7 @@ export class Session {
         @param key The key to update/add
         @param value The value to save
     */
-    set(key: string, value: string): void {
+    set(key: string, value: any): void {
         this.ctx.set(key, value);
         this.lastUpdate = moment();
     }
@@ -43,7 +43,27 @@ export class Session {
         @param key The key to retrieve
         @returns The value of the key
     */
-    get(key: string): string | undefined {
+    get(key: string): any {
         return this.ctx.get(key);
+    }
+
+    /**
+        Retrieves the value of a key as a number.
+        @param key The key to retrieve
+        @returns The value as a number, or 0 if it is undefined
+    */
+    getNumber(key: string): number {
+        if (!this.ctx.get(key)) return 0;
+        return this.ctx.get(key) as number;
+    }
+
+    /**
+        Retrieves the value of a key as a string.
+        @param key The key to retrieve
+        @returns The value as a string, or an empty string if it is undefined
+    */
+    getString(key: string): string {
+        if (!this.ctx.get(key)) return '';
+        return this.ctx.get(key) as string;
     }
 }
