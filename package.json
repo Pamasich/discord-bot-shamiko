@@ -1,13 +1,18 @@
 {
   "name": "shamiko-bot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A personal bot for Discord for entertainment purposes.",
-  "main": "index.js",
+  "main": "./build/EntryPoint.js",
   "author": "Pamasich",
-  "license": "REPLACE_ME",
   "dependencies": {
     "discord.js": "^12.2.0",
-    "ffmpeg-static": "^4.2.0",
-    "fs": "0.0.1-security"
+    "ffmpeg-static": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.2.4",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "run": "npx tsc && node ./build/EntryPoint.js"
   }
 }
