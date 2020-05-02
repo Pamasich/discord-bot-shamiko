@@ -9,8 +9,8 @@ import { findGuildUserByName, generateUserMention } from '../CommonFunctions';
 */
 export function handleHug(msg: Message, user: string): void {
     const reply: string = "⊂(・ヮ・⊂)";
-    // If no target user is specified
-    if (!user) {
+    // If no target user is specified or it says 'me' (target is oneself)
+    if (!user || user === 'me') {
         msg.reply(reply); return;
     }
     // If the target user is given in plain text, convert it into a mention
