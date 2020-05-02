@@ -8,7 +8,7 @@ let sessions: Session[] = new Array();
 
 /**
     Pushes a new session into the array.
-    @param topic The topic the session is about
+    @param topic What the session is about
     @param user The user associated with the session
     @param lifetime How long, in minutes, the sessions should stay alive
 */
@@ -39,4 +39,22 @@ export function getSession(topic: string, user: User): Session | undefined {
     return sessions.find(session => {
         return session.user === user && session.topic === topic;
     });
+}
+
+/**
+    Retrieves a session.
+    If it doesn't exist yet, create it.
+    If any expired sessions are found, they are discarded.
+    @param topic What the session is about
+    @param user The user associated with the session
+    @param lifetime How long, in minutes, the sessions should stay alive
+    @returns The desired session
+*/
+export function getOrCreateSession(
+    topic: string,
+    user: User,
+    lifetime: number
+): Session {
+    createSession(topic, user, lifetime);
+    return getSession(topic, user);
 }
