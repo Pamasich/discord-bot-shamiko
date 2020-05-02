@@ -34,13 +34,13 @@ function handleMessage(msg: Message): void {
         if (checkForKeyword(cmd, 'hug')) {
             handleHug(msg, stripKeyword(cmd, 'hug')); return;
         }
-        if (/^r(ock)?$/.test(cmd)) {
+        if (checkForKeyword(cmd, 'rock')) {
             handleRPS(msg, RPSType.Rock); return;
         }
-        if (/^s(cissor(s)?)?$/.test(cmd)) {
+        if (/^scissor(s)?$/.test(cmd)) {
             handleRPS(msg, RPSType.Scissors); return;
         }
-        if (/^p(aper)?$/.test(cmd)) {
+        if (checkForKeyword(cmd, 'paper')) {
             handleRPS(msg, RPSType.Paper); return;
         }
         // Default reply
