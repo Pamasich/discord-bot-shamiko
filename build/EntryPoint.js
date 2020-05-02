@@ -6,7 +6,6 @@ const CommonFunctions_1 = require("./CommonFunctions");
 const RockPaperScissors_1 = require("./commands/RockPaperScissors");
 const Ping_1 = require("./commands/Ping");
 const Hug_1 = require("./commands/Hug");
-const Session_1 = require("./sessions/Session");
 const bot = new discord_js_1.Client();
 bot.on('message', msg => handleMessage(msg));
 bot.login(getToken());
@@ -38,11 +37,6 @@ function handleMessage(msg) {
             return;
         }
         if (CommonFunctions_1.checkForKeyword(cmd, 'test')) {
-            let session = new Session_1.Session(msg.author, 'test');
-            console.log(session.getLastUpdate());
-            session.set('some', 'test');
-            console.log(session.getLastUpdate());
-            console.log(session.get('some'));
             return;
         }
         msg.reply("I don't understand what you want me to do.");

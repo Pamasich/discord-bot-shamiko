@@ -1,24 +1,30 @@
 import { User } from 'discord.js';
+import moment from 'moment';
 
 /**
     Represents an ongoing session, which is associated with a user and a topic.
 */
 export class Session {
-    private lastUpdate: Date = new Date();
+    private lastUpdate: moment.Moment = moment();
     private ctx: Map<string, string> = new Map();
+    /** The user associated with this sesson. */
     readonly user: User;
+    /** The topic this session is about. */
     readonly topic: string;
+    /** How long (in minutes) the session should stay alive without updates. */
+    readonly lifetime: number;
 
-    constructor(user: User, topic: string) {
+    constructor(user: User, topic: string, lifetime: number) {
         this.user = user;
         this.topic = topic;
+        this.lifetime = lifetime;
     }
 
     /**
-        Retrieves the timestamp of when the session got last updated.
-        @returns The timestamp
+        Retrieves the time of when the session got last updated.
+        @returns The time
     */
-    getLastUpdate(): Date {
+    getLastUpdate(): moment.Moment {
         return this.lastUpdate;
     }
 
@@ -29,7 +35,7 @@ export class Session {
     */
     set(key: string, value: string): void {
         this.ctx.set(key, value);
-        this.lastUpdate = new Date();
+        this.lastUpdate = moment();
     }
 
     /**
