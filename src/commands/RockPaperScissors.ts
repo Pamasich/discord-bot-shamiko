@@ -29,6 +29,7 @@ export function handleRPS(msg: Message, input: RPSType): void {
         || randomNum === RPSType['Paper'] && input === RPSType.Paper
         || randomNum === RPSType['Scissors'] && input === RPSType.Scissors
     ) {
+        session.refresh();
         answer = "it's a tie!"
     // Loss case
     } else {

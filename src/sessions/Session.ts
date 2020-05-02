@@ -66,4 +66,11 @@ export class Session {
         if (!this.ctx.get(key)) return '';
         return this.ctx.get(key) as string;
     }
+
+    /**
+        Refreshes the session without mutating it.
+    */
+    refresh(): void {
+        this.lastUpdate = moment();
+    }
 }
