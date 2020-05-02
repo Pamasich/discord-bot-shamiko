@@ -17,6 +17,7 @@ export function createSession(
     user: User,
     lifetime: number
 ): void {
+    if (getSession(topic, user)) return; // Abort if the session already exists
     sessions.push(new Session(user, topic, lifetime));
 }
 
