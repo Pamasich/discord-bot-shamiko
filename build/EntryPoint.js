@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 const fs_1 = require("fs");
 const CommonFunctions_1 = require("./CommonFunctions");
+const RockPaperScissors_1 = require("./commands/RockPaperScissors");
 const Ping_1 = require("./commands/Ping");
 const Hug_1 = require("./commands/Hug");
-const RockPaperScissors_1 = require("./commands/RockPaperScissors");
+const Session_1 = require("./sessions/Session");
 const bot = new discord_js_1.Client();
 bot.on('message', msg => handleMessage(msg));
 bot.login(getToken());
@@ -24,16 +25,24 @@ function handleMessage(msg) {
             Hug_1.handleHug(msg, CommonFunctions_1.stripKeyword(cmd, 'hug'));
             return;
         }
-        if (/^r(ock)?$/.test(cmd)) {
+        if (CommonFunctions_1.checkForKeyword(cmd, 'rock')) {
             RockPaperScissors_1.handleRPS(msg, RockPaperScissors_1.RPSType.Rock);
             return;
         }
-        if (/^s(cissor(s)?)?$/.test(cmd)) {
+        if (/^scissor(s)?$/.test(cmd)) {
             RockPaperScissors_1.handleRPS(msg, RockPaperScissors_1.RPSType.Scissors);
             return;
         }
-        if (/^p(aper)?$/.test(cmd)) {
+        if (CommonFunctions_1.checkForKeyword(cmd, 'paper')) {
             RockPaperScissors_1.handleRPS(msg, RockPaperScissors_1.RPSType.Paper);
+            return;
+        }
+        if (CommonFunctions_1.checkForKeyword(cmd, 'test')) {
+            let session = new Session_1.Session(msg.author, 'test');
+            console.log(session.getLastUpdate());
+            session.set('some', 'test');
+            console.log(session.getLastUpdate());
+            console.log(session.get('some'));
             return;
         }
         msg.reply("I don't understand what you want me to do.");

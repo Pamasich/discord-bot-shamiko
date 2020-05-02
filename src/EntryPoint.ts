@@ -1,9 +1,10 @@
 import { Client, Message } from 'discord.js';
 import { readFileSync } from 'fs';
 import { checkForKeyword, stripKeyword} from './CommonFunctions';
+import { handleRPS, RPSType } from './commands/RockPaperScissors';
 import { handlePing } from './commands/Ping';
 import { handleHug } from './commands/Hug';
-import { handleRPS, RPSType } from './commands/RockPaperScissors';
+import { Session } from './sessions/Session';
 
 // The main object used to talk to Discord
 const bot: Client = new Client();
@@ -42,6 +43,15 @@ function handleMessage(msg: Message): void {
         }
         if (checkForKeyword(cmd, 'paper')) {
             handleRPS(msg, RPSType.Paper); return;
+        }
+        // For testing latest functionalities
+        if (checkForKeyword(cmd, 'test')) {
+            let session: Session = new Session(msg.author, 'test');
+            console.log(session.getLastUpdate());
+            session.set('some', 'test');
+            console.log(session.getLastUpdate());
+            console.log(session.get('some'));
+            return;
         }
         // Default reply
         msg.reply("I don't understand what you want me to do.");
