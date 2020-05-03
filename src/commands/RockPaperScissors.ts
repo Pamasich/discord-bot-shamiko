@@ -2,6 +2,7 @@ import { Message } from 'discord.js';
 import { random, floor } from 'mathjs';
 import { getOrCreateSession } from '../sessions/SessionManager';
 import { Session } from '../sessions/Session';
+import { registerCommand } from './CommandManager';
 
 /**
     Plays Rock Paper Scissors.
@@ -58,3 +59,24 @@ export enum RPSType {
 function randomRPSType(): number {
     return floor(random(Object.keys(RPSType).length / 2));
 }
+
+const cmdDescStart: string = "Let's play Rock-Paper-Scissors! Your choice is ";
+const cmdDescEnd: string = ", but what is mine?\nIf you play again within 60"
+    + " minutes, I will remember our previous battles.";
+const cmdUsageDesc: string = "I will make my choice and we'll see who wins.";
+
+function registerRPSCommand(command: string, aliases?: string[]): void {
+    registerCommand(command, {
+        name: command,
+        desc: cmdDescStart + command + cmdDescEnd,
+        aliases: (aliases ? aliases : undefined),
+        syntax: command,
+        usages: [
+            {usage: command, desc: cmdUsageDesc}
+        ]
+    });
+}
+
+registerRPSCommand('scissors', ['scissor']);
+registerRPSCommand('rock');
+registerRPSCommand('paper');

@@ -1,5 +1,6 @@
 import { Message, User } from 'discord.js';
 import { findGuildUserByName, generateUserMention } from '../CommonFunctions';
+import { registerCommand } from './CommandManager';
 
 /**
     Hugs a given user, or the command's author if no user is specified.
@@ -30,3 +31,15 @@ export function handleHug(msg: Message, user: string): void {
     // Default Response
     msg.reply("I've never heard of this person!");
 }
+
+registerCommand('hug', {
+    name: 'hug',
+    desc: "I will hug you or someone else you want me to.",
+    syntax: 'hug <target>',
+    usages: [
+        {usage: 'hug', desc: "I will hug you."},
+        {usage: 'hug me', desc: "I will hug you."},
+        {usage: 'hug shamiko', desc: "I will hug @Shamiko"},
+        {usage: 'hug @shamiko', desc: "I will hug @Shamiko"}
+    ]
+});

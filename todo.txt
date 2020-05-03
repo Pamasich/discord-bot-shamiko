@@ -1,2 +1,3 @@
 remember command
 forget command
+win percentage for rock paper scissors

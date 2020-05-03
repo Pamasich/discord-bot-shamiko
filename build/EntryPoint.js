@@ -6,6 +6,7 @@ const CommonFunctions_1 = require("./CommonFunctions");
 const RockPaperScissors_1 = require("./commands/RockPaperScissors");
 const Ping_1 = require("./commands/Ping");
 const Hug_1 = require("./commands/Hug");
+const Help_1 = require("./commands/Help");
 const bot = new discord_js_1.Client();
 bot.on('message', msg => handleMessage(msg));
 bot.login(getToken());
@@ -36,7 +37,12 @@ function handleMessage(msg) {
             RockPaperScissors_1.handleRPS(msg, RockPaperScissors_1.RPSType.Paper);
             return;
         }
+        if (CommonFunctions_1.checkForKeyword(cmd, 'help')) {
+            Help_1.handleHelp(msg, CommonFunctions_1.stripKeyword(cmd, 'help'));
+            return;
+        }
         if (CommonFunctions_1.checkForKeyword(cmd, 'test')) {
+            console.log("There's nothing to test.");
             return;
         }
         msg.reply("I don't understand what you want me to do.");

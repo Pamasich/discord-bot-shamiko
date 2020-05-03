@@ -4,6 +4,7 @@ import { checkForKeyword, stripKeyword} from './CommonFunctions';
 import { handleRPS, RPSType } from './commands/RockPaperScissors';
 import { handlePing } from './commands/Ping';
 import { handleHug } from './commands/Hug';
+import { handleHelp } from './commands/Help';
 import { createSession, getSession } from './sessions/SessionManager';
 import { Session } from './sessions/Session';
 
@@ -45,9 +46,12 @@ function handleMessage(msg: Message): void {
         if (checkForKeyword(cmd, 'paper')) {
             handleRPS(msg, RPSType.Paper); return;
         }
+        if (checkForKeyword(cmd, 'help')) {
+            handleHelp(msg, stripKeyword(cmd, 'help')); return;
+        }
         // For testing latest functionalities
         if (checkForKeyword(cmd, 'test')) {
-            return;
+            console.log("There's nothing to test."); return;
         }
         // Default reply
         msg.reply("I don't understand what you want me to do.");

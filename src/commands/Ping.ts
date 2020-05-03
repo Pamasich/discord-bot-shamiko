@@ -1,4 +1,5 @@
 import { Message } from 'discord.js';
+import { registerCommand } from './CommandManager';
 
 /**
     Send a complementary 'Pong!' message.
@@ -7,3 +8,12 @@ import { Message } from 'discord.js';
 export function handlePing(msg: Message): void {
     msg.channel.send("Pong!");
 }
+
+registerCommand('ping', {
+    name: 'ping',
+    desc: "I will answer you with a Pong!",
+    syntax: 'ping',
+    usages: [
+        {usage: 'ping', desc: "I will answer with Pong!"}
+    ]
+});
