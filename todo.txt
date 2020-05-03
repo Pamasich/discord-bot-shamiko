@@ -1,6 +1,4 @@
 win percentage for rock paper scissors
-add garbage emoji to reset sessions manually (rock-paper-scissors)
-react to mentions
 rewrite command registrations to be called from a central place, to ensure order
 rewrite and generalize reactions
 Add AI to rock-paper-scissors (more likely to adjust answer than go with the same one again)
@@ -8,6 +6,7 @@ tell command
 ganbare command
 play music
 create playlists
+create lists
 read manga
 link stuff
 get images
