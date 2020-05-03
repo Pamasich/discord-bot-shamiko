@@ -8,7 +8,7 @@ import { handleHelp } from './commands/Help';
 import { createSession, getSession } from './sessions/SessionManager';
 import { Session } from './sessions/Session';
 
-// The main object used to talk to Discord
+/** The main object used to talk to Discord */
 const bot: Client = new Client();
 
 // Handles new messages

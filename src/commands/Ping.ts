@@ -9,6 +9,7 @@ export function handlePing(msg: Message): void {
     msg.channel.send("Pong!");
 }
 
+// Register the command
 registerCommand('ping', {
     name: 'ping',
     desc: "I will answer you with a Pong!",

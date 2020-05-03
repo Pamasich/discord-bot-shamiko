@@ -32,6 +32,7 @@ export function handleHug(msg: Message, user: string): void {
     msg.reply("I've never heard of this person!");
 }
 
+// Register the command
 registerCommand('hug', {
     name: 'hug',
     desc: "I will hug you or someone else you want me to.",
