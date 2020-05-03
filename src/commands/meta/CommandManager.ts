@@ -22,7 +22,7 @@ export function getCommand(name: string): Command | undefined {
     // If a command with the name exists, return it
     if (commands.has(name)) return commands.get(name);
     // If not, check aliases
-    Array.from(commands.values()).find(command => {
+    return Array.from(commands.values()).find(command => {
         return command?.aliases?.some(alias => alias === name);
     });
 }
