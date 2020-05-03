@@ -1,6 +1,6 @@
 import { Message, User } from 'discord.js';
 import { findGuildUserByName, generateUserMention } from '../CommonFunctions';
-import { registerCommand } from './CommandManager';
+import { registerCommand } from './meta/CommandManager';
 
 /**
     Hugs a given user, or the command's author if no user is specified.

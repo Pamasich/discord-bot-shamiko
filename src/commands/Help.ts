@@ -1,5 +1,9 @@
-import { registerCommand, getCommand, getAllCommands } from './CommandManager';
-import { Command, CommandUsage } from './Command';
+import {
+    registerCommand,
+    getCommand,
+    getAllCommands
+} from './meta/CommandManager';
+import { Command, CommandUsage } from './meta/Command';
 import { Message, MessageEmbed } from 'discord.js';
 
 export function handleHelp(msg: Message, cmd: string) {

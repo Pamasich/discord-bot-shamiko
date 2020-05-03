@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { random, floor } from 'mathjs';
 import { getOrCreateSession } from '../sessions/SessionManager';
 import { Session } from '../sessions/Session';
-import { registerCommand } from './CommandManager';
+import { registerCommand } from './meta/CommandManager';
 
 /**
     Plays Rock Paper Scissors.

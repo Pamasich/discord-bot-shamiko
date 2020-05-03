@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { registerCommand } from './CommandManager';
+import { registerCommand } from './meta/CommandManager';
 
 /**
     Send a complementary 'Pong!' message.
