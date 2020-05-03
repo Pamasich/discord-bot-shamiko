@@ -1,3 +1,4 @@
-remember command
-forget command
 win percentage for rock paper scissors
+make ping reply instead of new message
+add garbage emoji to reset sessions manually (rock-paper-scissors)
+react to mentions
