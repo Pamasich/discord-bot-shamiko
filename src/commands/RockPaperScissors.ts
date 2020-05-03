@@ -1,6 +1,6 @@
-import { Message } from 'discord.js';
+import { Message, ReactionCollector } from 'discord.js';
 import { random, floor } from 'mathjs';
-import { getOrCreateSession } from '../sessions/SessionManager';
+import { getOrCreateSession, deleteSession } from '../sessions/SessionManager';
 import { Session } from '../sessions/Session';
 import { registerCommand } from './meta/CommandManager';
 
@@ -9,7 +9,7 @@ import { registerCommand } from './meta/CommandManager';
     @param msg The message to reply to
     @param input The user's choice
 */
-export function handleRPS(msg: Message, input: RPSType): void {
+export async function handleRPS(msg: Message, input: RPSType): Promise<void> {
     const randomNum: number = randomRPSType();
     const session: Session = getOrCreateSession(
         'rock-paper-scissors', msg.author, 60
@@ -38,7 +38,7 @@ export function handleRPS(msg: Message, input: RPSType): void {
         answer = "I won!";
     }
     // Answering
-    msg.reply(RPSType[randomNum] + ', ' + answer
+    const reply: Message = await msg.reply(RPSType[randomNum] + ', ' + answer
         + '\n```' // Code formatting start
         + '\nTotal Attempts: ' + session.getNumber('turns')
         + '\nI won:          '
@@ -46,6 +46,33 @@ export function handleRPS(msg: Message, input: RPSType): void {
         + '\nYou won:        ' + session.getNumber('victories')
         + '\n```' // Code formatting end
     );
+    // Add reactions
+    await reply.react('🗑️');
+    await reply.react('♻️');
+    // Wait for user to react
+    const collector: ReactionCollector = reply.createReactionCollector(
+        (reaction, user) => {
+            if (session.user === user) {
+                if (
+                    reaction.emoji.name === '🗑️'
+                    || reaction.emoji.name === '♻️'
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    ).on('collect', reaction => {
+        if (reaction.emoji.name === '🗑️') {
+            deleteSession(session);
+            msg.reply("This demon will do her best to forget all about our"
+                + " previous battle results!");
+            collector.stop();
+        } else if (reaction.emoji.name === '♻️') {
+            session.refresh();
+            msg.reply("I'll make sure to remember you for another hour!");
+        }
+    });
 }
 
 /** Holds the valid choices the user and shamiko can make. */
@@ -59,8 +86,6 @@ export enum RPSType {
 function randomRPSType(): number {
     return floor(random(Object.keys(RPSType).length / 2));
 }
-
-/* Registering the command */
 
 // Defined here for readability
 const cmdDescStart: string = "Let's play Rock-Paper-Scissors! Your choice is ";
@@ -85,6 +110,7 @@ function registerRPSCommand(command: string, aliases?: string[]): void {
     });
 }
 
+// Register the commands
 registerRPSCommand('scissors', ['scissor']);
 registerRPSCommand('rock');
 registerRPSCommand('paper');

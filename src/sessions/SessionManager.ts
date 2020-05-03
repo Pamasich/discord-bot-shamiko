@@ -62,3 +62,13 @@ export function getOrCreateSession(
     createSession(topic, user, lifetime);
     return getSession(topic, user) as Session;
 }
+
+/**
+    Removes a session.
+    @param session The session to remove
+*/
+export function deleteSession(session: Session): void {
+    sessions = sessions.filter(item => {
+        return item !== session;
+    });
+}
