@@ -1,6 +1,10 @@
-import { Client, Message } from 'discord.js';
+import { Client, Message, User } from 'discord.js';
 import { readFileSync } from 'fs';
-import { checkForKeyword, stripKeyword} from './CommonFunctions';
+import {
+    checkForKeyword,
+    stripKeyword,
+    generateUserMention
+} from './CommonFunctions';
 import { handleRPS, RPSType } from './commands/RockPaperScissors';
 import { handlePing } from './commands/Ping';
 import { handleHug } from './commands/Hug';
@@ -25,9 +29,13 @@ function handleMessage(msg: Message): void {
     // If the message's author is the bot itself, don't handle it
     if (msg.author === bot.user) return;
     // Check if the bot should handle this message
-    if (checkForKeyword(msg.content, 'shamiko')) {
+    const named: boolean = checkForKeyword(msg.content, 'shamiko');
+    const mention: string = generateUserMention(bot.user as User);
+    if (named || checkForKeyword(msg.content, mention)) {
         // Removes the keyword from the command
-        const cmd: string = stripKeyword(msg.content, 'shamiko');
+        const cmd: string = (named
+            ? stripKeyword(msg.content, 'shamiko')
+            : stripKeyword(msg.content, mention));
         // If someone only writes her name, don't respond
         if (!cmd) return;
         // Decide which command to execute

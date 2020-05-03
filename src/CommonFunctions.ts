@@ -45,7 +45,7 @@ export function findGuildUserByName(
     @returns A mention
 */
 export function generateUserMention(user: User): string {
-    return '<@' + user.id + '>';
+    return '<@!' + user.id + '>';
 }
 
 /**
