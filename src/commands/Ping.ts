@@ -6,7 +6,7 @@ import { registerCommand } from './meta/CommandManager';
     @param msg The pinging message
 */
 export function handlePing(msg: Message): void {
-    msg.channel.send("Pong!");
+    msg.reply("Pong!");
 }
 
 // Register the command
