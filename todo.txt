@@ -18,3 +18,13 @@ high score
 ranking
 tic tac toe
 chess
+coin flip
+leveling
+gacha
+advanced purge
+give own role
+suggest new features / report bugs
+conversion feature
+remindme
+mention random user
+find out when someone joined
