@@ -1,7 +1,3 @@
-win percentage for rock paper scissors
-rewrite command registrations to be called from a central place, to ensure order
-rewrite and generalize reactions
-Add AI to rock-paper-scissors (more likely to adjust answer than go with the same one again)
 tell command
 ganbare command
 play music
@@ -28,3 +24,6 @@ conversion feature
 remindme
 mention random user
 find out when someone joined
+shamiko should respond to bad bot
+random.org features
+generate rss feeds and publish them to github

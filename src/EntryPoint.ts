@@ -1,76 +1,17 @@
-import { Client, Message, User } from 'discord.js';
-import { readFileSync } from 'fs';
-import {
-    checkForKeyword,
-    stripKeyword,
-    generateUserMention
-} from './CommonFunctions';
-import { handleRPS, RPSType } from './commands/RockPaperScissors';
-import { handlePing } from './commands/Ping';
-import { handleHug } from './commands/Hug';
-import { handleHelp } from './commands/Help';
-import { createSession, getSession } from './sessions/SessionManager';
-import { Session } from './sessions/Session';
+// Node Imports
+import { Client } from 'discord.js';
+// Project Imports
+import { MessageEventHandler } from './event-handlers/Message';
+import { ReadyEventHandler } from './event-handlers/Ready';
+// Local Imports
+import { login } from './Login';
 
-/** The main object used to talk to Discord */
+// Used to access the Discord API
 const bot: Client = new Client();
 
-// Handles new messages
-bot.on('message', msg => handleMessage(msg));
+// Event Handlers
+bot.on('message', msg => MessageEventHandler.prototype.handle(msg));
+bot.on('ready', () => ReadyEventHandler.prototype.handle());
 
-// Login to the bot
-bot.login(getToken());
-
-/**
-    Defines what happens on new messages.
-    @param msg - The new message
-*/
-function handleMessage(msg: Message): void {
-    // If the message's author is the bot itself, don't handle it
-    if (msg.author === bot.user) return;
-    // Check if the bot should handle this message
-    const named: boolean = checkForKeyword(msg.content, 'shamiko');
-    const mention: string = generateUserMention(bot.user as User);
-    if (named || checkForKeyword(msg.content, mention)) {
-        // Removes the keyword from the command
-        const cmd: string = (named
-            ? stripKeyword(msg.content, 'shamiko')
-            : stripKeyword(msg.content, mention));
-        // If someone only writes her name, don't respond
-        if (!cmd) return;
-        // Decide which command to execute
-        if (checkForKeyword(cmd, 'ping')) {
-            handlePing(msg); return;
-        }
-        if (checkForKeyword(cmd, 'hug')) {
-            handleHug(msg, stripKeyword(cmd, 'hug')); return;
-        }
-        if (checkForKeyword(cmd, 'rock')) {
-            handleRPS(msg, RPSType.Rock); return;
-        }
-        if (/^scissor(s)?$/.test(cmd)) {
-            handleRPS(msg, RPSType.Scissors); return;
-        }
-        if (checkForKeyword(cmd, 'paper')) {
-            handleRPS(msg, RPSType.Paper); return;
-        }
-        if (checkForKeyword(cmd, 'help')) {
-            handleHelp(msg, stripKeyword(cmd, 'help')); return;
-        }
-        // For testing latest functionalities
-        if (checkForKeyword(cmd, 'test')) {
-            console.log("There's nothing to test."); return;
-        }
-        // Default reply
-        msg.reply("I don't understand what you want me to do.");
-    }
-}
-
-/**
-    Retrieves the access token for the bot account.
-    @returns The token
-*/
-function getToken(): string {
-    // Make sure this file exists, it isn't checked into source control
-    return readFileSync('./resources/token.txt', 'utf-8').trim();
-}
+// Login
+login(bot);

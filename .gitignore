@@ -1,3 +1,5 @@
 node_modules
 resources/token.txt
 build
+old
+oldv2
