@@ -17,6 +17,6 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "run": "npx tsc && node ./build/EntryPoint.js"
+    "run": "rimraf build/* && npx tsc && node ./build/EntryPoint.js"
   }
 }
