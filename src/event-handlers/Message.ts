@@ -1,7 +1,6 @@
 // Project Imports
 import { EventHandler } from './meta/Interface';
-//import { PingCommand } from '../commands/Ping';
-import { Command } from '../commands/meta/Interface';
+import { CommandManager } from '../commands/meta/Manager';
 
 /**
     Handles the 'message' event.
@@ -9,8 +8,8 @@ import { Command } from '../commands/meta/Interface';
 export class MessageEventHandler implements EventHandler {
     private constructor() {}; // Disables the constructor.
     handle(...ctx: any[]): void {
-        // Proof of Concept - Dynamic Command Loading
-        let cmdSrc = require('../commands/Ping');
-        console.log(new cmdSrc.CommandImpl().name);
+        // Temporary
+        new (require('../commands/Ping')).CommandImpl();
+        CommandManager.executeFirstApplicableCommand('ping');
     }
 }

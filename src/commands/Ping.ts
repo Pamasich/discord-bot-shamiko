@@ -1,3 +1,5 @@
+// Node Imports
+import { Message } from 'discord.js';
 // Project Imports
 import { Command } from './meta/Interface';
 
@@ -6,10 +8,10 @@ import { Command } from './meta/Interface';
     Responds 'Pong!' to the player calling the command.
 */
 export class CommandImpl extends Command {
-    run(): void {
+    run(msg: Message): void {
         console.log('Test works');
     }
     constructor() {
-        super('testName');
+        super('Ping', 'ping');
     }
 }

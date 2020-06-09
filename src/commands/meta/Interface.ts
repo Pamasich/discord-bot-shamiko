@@ -1,5 +1,7 @@
 // Node Imports
 import { Message } from 'discord.js';
+// Project Imports
+import { CommandManager } from './Manager';
 
 /**
     A command's skeleton. Individual commands extend this class.
@@ -14,7 +16,8 @@ export abstract class Command {
     */
     abstract run(msg: Message): void;
 
-    constructor(name: string) {
+    constructor(name: string, regex: string) {
         this.name = name;
+        CommandManager.register(regex, this);
     }
 }
