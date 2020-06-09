@@ -13,10 +13,6 @@ export abstract class Command {
         @param msg The incoming Message object
     */
     abstract run(msg: Message): void;
-    /** Register the command with the CommandManager. */
-    register(): void {
-        console.log('Register for Help functionality');
-    }
 
     constructor(name: string) {
         this.name = name;
