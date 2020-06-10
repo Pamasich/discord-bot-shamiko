@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import { Command } from './Interface';
 
 export class CommandManager {
@@ -9,10 +10,10 @@ export class CommandManager {
         this.commandMap.set(regex, command);
     }
 
-    static executeFirstApplicableCommand(input: string): void {
+    static executeFirstApplicableCommand(input: string, msg: Message): void {
         for (let [regex, cmd] of this.commandMap) {
             if (new RegExp(regex).test(input)) {
-                console.log((cmd as Command).name);
+                (cmd as Command).run(msg);
             }
             break;
         }

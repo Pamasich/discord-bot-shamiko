@@ -9,7 +9,7 @@ import { Command } from './meta/Interface';
 */
 export class CommandImpl extends Command {
     run(msg: Message): void {
-        console.log('Test works');
+        console.log(msg.content);
     }
     constructor() {
         super('Ping', 'ping');

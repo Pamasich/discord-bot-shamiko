@@ -1,3 +1,5 @@
+// Node Imports
+import { Message } from 'discord.js';
 // Project Imports
 import { EventHandler } from './meta/Interface';
 import { CommandManager } from '../commands/meta/Manager';
@@ -10,6 +12,6 @@ export class MessageEventHandler implements EventHandler {
     handle(...ctx: any[]): void {
         // Temporary
         new (require('../commands/Ping')).CommandImpl();
-        CommandManager.executeFirstApplicableCommand('ping');
+        CommandManager.executeFirstApplicableCommand('ping', ctx[0] as Message);
     }
 }
