@@ -13,14 +13,16 @@ export class CommandManager {
 
     static executeFirstApplicableCommand(msg: Message): void {
         for (let [regex, cmd] of this.commandMap) {
+            console.log("Testing with regex " + regex);
             if (new RegExp(regex).test(msg.content)) {
                 (cmd as Command).run(msg);
+                break;
             }
-            break;
         }
     }
 
     static loadAllCommands() {
+        this.commandMap.clear();
         const fileNames: string[] = readdirSync('build/commands/');
         fileNames
             .filter(element => /\.[a-zA-Z0-9]+$/.test(element))
