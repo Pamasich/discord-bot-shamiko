@@ -10,7 +10,6 @@ import { CommandManager } from '../commands/meta/Manager';
 export class MessageEventHandler implements EventHandler {
     private constructor() {}; // Disables the constructor.
     handle(...ctx: any[]): void {
-        // Temporary
-        CommandManager.executeFirstApplicableCommand('ping', ctx[0] as Message);
+        CommandManager.executeFirstApplicableCommand(ctx[0] as Message);
     }
 }

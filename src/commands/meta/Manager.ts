@@ -11,9 +11,9 @@ export class CommandManager {
         this.commandMap.set(regex, command);
     }
 
-    static executeFirstApplicableCommand(input: string, msg: Message): void {
+    static executeFirstApplicableCommand(msg: Message): void {
         for (let [regex, cmd] of this.commandMap) {
-            if (new RegExp(regex).test(input)) {
+            if (new RegExp(regex).test(msg.content)) {
                 (cmd as Command).run(msg);
             }
             break;
