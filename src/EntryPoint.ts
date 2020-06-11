@@ -4,6 +4,7 @@ import { Client } from 'discord.js';
 import { MessageEventHandler } from './event-handlers/Message';
 import { ReadyEventHandler } from './event-handlers/Ready';
 import { CommandManager } from './commands/meta/Manager';
+import { Input } from './common/wrappers/Message';
 // Local Imports
 import { login } from './Login';
 
@@ -14,7 +15,7 @@ const bot: Client = new Client();
 CommandManager.loadAllCommands();
 
 // Event Handlers
-bot.on('message', msg => MessageEventHandler.prototype.handle(msg));
+bot.on('message', msg => MessageEventHandler.prototype.handle(new Input(msg)));
 bot.on('ready', () => ReadyEventHandler.prototype.handle());
 
 // Login

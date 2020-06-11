@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Input } from '../../common/wrappers/Message';
 import { Command } from './Interface';
 import { readdirSync } from 'fs';
 
@@ -11,7 +11,7 @@ export class CommandManager {
         this.commandMap.set(regex, command);
     }
 
-    static executeFirstApplicableCommand(msg: Message): void {
+    static executeFirstApplicableCommand(msg: Input): void {
         for (let [regex, cmd] of this.commandMap) {
             if (new RegExp(regex).test(msg.content.trim())) {
                 (cmd as Command).run(msg);

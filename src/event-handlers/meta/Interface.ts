@@ -1,6 +1,3 @@
-// Node Imports
-import { Message } from 'discord.js';
-
 /**
     Defines an event handler. Specific handlers should implement this.
 */
