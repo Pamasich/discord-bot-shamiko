@@ -13,8 +13,7 @@ export class CommandManager {
 
     static executeFirstApplicableCommand(msg: Message): void {
         for (let [regex, cmd] of this.commandMap) {
-            console.log("Testing with regex " + regex);
-            if (new RegExp(regex).test(msg.content)) {
+            if (new RegExp(regex).test(msg.content.trim())) {
                 (cmd as Command).run(msg);
                 break;
             }
@@ -27,6 +26,7 @@ export class CommandManager {
         fileNames
             .filter(element => /\.[a-zA-Z0-9]+$/.test(element))
             .forEach(element => {
+                delete require.cache[require.resolve('../' + element)];
                 new (require('../' + element)).CommandImpl();
             });
     }

@@ -12,6 +12,6 @@ export class CommandImpl extends Command {
         msg.reply("Pong!");
     }
     constructor() {
-        super('Ping', 'ping');
+        super('Ping', '^ping$');
     }
 }
