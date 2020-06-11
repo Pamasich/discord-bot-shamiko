@@ -11,7 +11,7 @@ import { CommandManager } from './meta/Manager';
 export class CommandImpl extends Command {
     run(msg: Message): void {
         CommandManager.loadAllCommands();
-        msg.reply("This demon successfully reloaded all the commands!");
+        msg.reply("This demon successfully reloaded all commands!");
     }
     constructor() {
         super('Reload', '^reload$');
