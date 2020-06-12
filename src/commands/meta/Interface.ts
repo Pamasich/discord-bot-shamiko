@@ -1,18 +1,11 @@
 // Project Imports
-import { CommandManager } from './Manager';
 import { Input } from '../../common/wrappers/Message';
+// Local Imports
+import { CommandManager } from './Manager';
 
-/**
-    A command's skeleton. Individual commands extend this class.
-*/
 export abstract class Command {
-    /** The command's name. */
-    readonly name: string;
 
-    /**
-        Runs the command. Has to be implemented by each command on its own.
-        @param msg The incoming Message object
-    */
+    readonly name: string;
     abstract run(msg: Input): void;
 
     constructor(name: string, regex: string) {

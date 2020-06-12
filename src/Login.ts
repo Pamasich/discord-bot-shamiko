@@ -6,10 +6,7 @@ import { Client } from 'discord.js';
 const tokenPath: string = './resources/token.txt';
 const encoding: string = 'utf8';
 
-/**
-    Handles logging into the Discord API.
-    @param bot The client used to access the API
-*/
+// The parameter is the client used to access the API
 export function login(bot: Client): void {
     bot.login(readFileSync(tokenPath, encoding).trim());
 }

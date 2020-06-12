@@ -1,11 +1,5 @@
-/**
-    Defines an event handler. Specific handlers should implement this.
-*/
 export interface EventHandler {
-    /**
-        Handles the event, taking an unspecified number of variable
-        parameter types.
-        @param ctx Any parameters the event may provide as context
-    */
+    // ctx is any number of any arguments that may be given by the event
+    // it is defined like this to ensure maximal compatibility with any event
     handle(...ctx: any[]): void
 }

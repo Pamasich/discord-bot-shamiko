@@ -3,10 +3,8 @@ import { Command } from './meta/Interface';
 import { CommandManager } from './meta/Manager';
 import { Input } from '../common/wrappers/Message';
 
-/**
-    The implementation of the Reload command.
-    Reloads all commands and options.
-*/
+// Reloads all commands
+// Keep this class name
 export class CommandImpl extends Command {
     run(msg: Input): void {
         CommandManager.loadAllCommands();
