@@ -1,5 +1,5 @@
 // Project Imports
-import { Command } from './meta/Interface';
+import { Command, OptionalCommandParams } from './meta/Interface';
 import { CommandManager } from './meta/Manager';
 import { Input } from '../common/wrappers/Message';
 
@@ -11,6 +11,14 @@ export class CommandImpl extends Command {
         msg.sendReply("This demon successfully reloaded all commands!");
     }
     constructor() {
-        super('Reload', '^reload$');
+        super(
+            'Reload',
+            "Makes me forget about all commands and learn them again.",
+            '^reload$',
+            {
+                syntax: 'reload',
+                usages: [{ usage: 'reload', desc: "Hot-reloads all commands." }]
+            } as OptionalCommandParams
+        );
     }
 }

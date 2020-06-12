@@ -1,5 +1,5 @@
 // Project Imports
-import { Command } from './meta/Interface';
+import { Command, OptionalCommandParams } from './meta/Interface';
 import { Input } from '../common/wrappers/Message';
 
 // Responds with "Pong!"
@@ -9,6 +9,14 @@ export class CommandImpl extends Command {
         msg.sendReply("Pong!");
     }
     constructor() {
-        super('Ping', '^ping$');
+        super(
+            'Ping',
+            "Makes me reply with a Pong!",
+            '^ping$',
+            {
+                syntax: 'ping',
+                usages: [{usage: 'ping', desc: "Replies with 'Pong!'"}]
+            } as OptionalCommandParams
+        );
     }
 }

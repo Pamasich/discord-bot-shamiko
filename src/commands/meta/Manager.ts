@@ -18,6 +18,7 @@ export class CommandManager {
     // Run the first command where the input string is matched by the regex
     static executeFirstApplicableCommand(msg: Input): void {
         for (let [regex, cmd] of this.commandMap) {
+            if ((cmd as Command).helpOnly) continue; // skip
             if (new RegExp(regex).test(msg.content.trim())) {
                 (cmd as Command).run(msg);
                 break;
